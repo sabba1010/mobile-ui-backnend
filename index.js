@@ -42,7 +42,7 @@ if (process.env.MONGODB_URI) {
     .then(() => {
       console.log('Connected to MongoDB Atlas successfully!');
       seedSuperAdmin();
-      seedTransactions();
+      // seedTransactions();
       seedAnnouncements();
       seedSettings();
     })

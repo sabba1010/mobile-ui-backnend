@@ -328,7 +328,7 @@ router.put('/deposit/:id', authenticateToken, isAdmin, async (req, res) => {
 // @desc    Submit a deposit request (User)
 router.post('/deposit', authenticateToken, async (req, res) => {
   try {
-    const { amount, method } = req.body;
+    const { amount, method, trxId } = req.body;
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
       return res.status(400).json({ success: false, message: 'Invalid deposit amount' });
     }
@@ -345,7 +345,8 @@ router.post('/deposit', authenticateToken, async (req, res) => {
       type: 'deposit',
       amount: Number(amount),
       status: 'pending',
-      description: `Deposit - ${method || 'Bank Transfer'}`
+      description: `Deposit - ${method || 'Bank Transfer'}`,
+      trxId: trxId || ''
     });
     await depositTrx.save();
 
