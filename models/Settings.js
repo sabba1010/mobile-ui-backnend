@@ -11,7 +11,7 @@ const SettingsSchema = new mongoose.Schema({
   },
   minWithdrawal: {
     type: Number,
-    default: 100
+    default: 30
   },
   withdrawFee: {
     type: Number,

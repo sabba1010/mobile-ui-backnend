@@ -441,6 +441,24 @@ router.post('/withdraw', authenticateToken, async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    // Fetch platform settings for minWithdrawal
+    const settings = await Settings.findOne();
+    const minWithdrawal = settings ? (settings.minWithdrawal || 30) : 30;
+
+    if (Number(amount) < minWithdrawal) {
+      return res.status(400).json({ success: false, message: `Minimum withdrawal amount is GHS ${minWithdrawal}` });
+    }
+
+    // Check: user must have at least one purchase before withdrawing
+    const Transaction = require('../models/Transaction');
+    const hasPurchase = await Transaction.exists({ userId: user._id, type: 'purchase' });
+    if (!hasPurchase) {
+      return res.status(403).json({
+        success: false,
+        message: 'You must purchase a product first before you can make a withdrawal.'
+      });
+    }
+
     if (user.balance < Number(amount)) {
       return res.status(400).json({ success: false, message: 'Insufficient balance' });
     }
@@ -470,6 +488,7 @@ router.post('/withdraw', authenticateToken, async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 });
+
 
 // @route   GET /api/user/settings
 // @desc    Get platform settings config (Public)
