@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const Transaction = require('./models/Transaction');
 
 mongoose.connect(process.env.MONGODB_URI).then(async () => {
-  const res = await Transaction.deleteMany({
-    description: { $in: ['VIP3 Plan Purchase', 'VIP3 Daily Yield'] }
-  });
-  console.log('Deleted remaining fake transactions:', res.deletedCount);
+  const transactions = await Transaction.find({ type: { $in: ['income', 'purchase'] } });
+  console.log(transactions);
   process.exit(0);
 }).catch(console.error);

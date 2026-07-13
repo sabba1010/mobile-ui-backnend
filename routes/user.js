@@ -765,7 +765,7 @@ router.get('/wallets', authenticateToken, async (req, res) => {
 // @desc    Add a new wallet account
 router.post('/wallets', authenticateToken, async (req, res) => {
   try {
-    const { type, label, number } = req.body;
+    const { type, label, number, bankName } = req.body;
     if (!type || !label || !number) {
       return res.status(400).json({ success: false, message: 'Please provide type, label, and number' });
     }
@@ -776,7 +776,7 @@ router.post('/wallets', authenticateToken, async (req, res) => {
     // If first wallet, set as default
     const isDefault = user.wallets.length === 0;
 
-    user.wallets.push({ type, label, number, isDefault });
+    user.wallets.push({ type, label, number, bankName: bankName || '', isDefault });
     await user.save();
 
     res.status(201).json({ success: true, wallets: user.wallets });

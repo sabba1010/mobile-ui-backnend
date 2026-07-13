@@ -63,6 +63,7 @@ const userSchema = new mongoose.Schema({
     type: { type: String, required: true },
     label: { type: String, required: true },
     number: { type: String, required: true },
+    bankName: { type: String, default: '' },
     isDefault: { type: Boolean, default: false }
   }]
 }, { timestamps: true });
