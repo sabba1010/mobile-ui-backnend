@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'None'
   },
+  planExpireDate: {
+    type: Date,
+    default: null
+  },
   referrals: {
     type: Number,
     default: 0

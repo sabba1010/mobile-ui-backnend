@@ -36,6 +36,8 @@ app.use((req, res, next) => {
   next();
 });
 
+const initCronJobs = require('./utils/cronJobs');
+
 // Database connection
 if (process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI)
@@ -45,6 +47,7 @@ if (process.env.MONGODB_URI) {
       // seedTransactions();
       seedAnnouncements();
       seedSettings();
+      initCronJobs();
     })
     .catch((err) => {
       console.error('Error connecting to MongoDB:', err);

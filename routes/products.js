@@ -152,6 +152,9 @@ router.post('/purchase', authenticateToken, async (req, res) => {
     }
 
     user.plan = product.name;
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + product.days);
+    user.planExpireDate = expiryDate;
     user.balance -= product.price;
     user.referralStatus = 'completed';
     await user.save();
