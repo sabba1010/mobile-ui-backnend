@@ -31,6 +31,10 @@ const transactionSchema = new mongoose.Schema({
   trxId: {
     type: String,
     default: ''
+  },
+  image: {
+    type: String,
+    default: ''
   }
 }, { timestamps: true });
 
